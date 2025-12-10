@@ -1,62 +1,105 @@
-# OneShotAI (Archived Prototype)
-
-Archived prototype — first attempt at building an AI interface before DartBoard.
-Stateless AI, single-shot compression model, basic frontend + backend stack.
-
-Status: Archived — Early Prototyping Phase (Built ~6 months before DartBoard)
-
----
+# OneShotAI — Single-Prompt Tactical Interface
 
 ## Overview
 
-OneShotAI was my first attempt at building an AI interaction layer.
-
-The goal was simple:
-- Build a minimal full-stack app  
-- Test OpenAI API integration  
-- Experiment with stateless, compressed LLM responses  
-- Create a primitive UI for “one question → one answer” interaction  
-
-What started here eventually evolved into the ideas behind DartBoard, my modern AI system.
-
----
+OneShotAI is a minimal, stateless AI terminal interface with a neon-styled UI. It provides single-shot Q&A interactions with no chat history—each prompt is processed independently, making it ideal for tactical, focused queries without conversational context.
 
 ## Features
 
-- Basic user → assistant chat flow  
-- Stateless “single-shot” LLM prompting  
-- Early exploration of compressed, non-conversational AI responses  
-- Simple backend routing  
-- Very early UI experiments (before I knew React/Next.js)
-
----
+- **Streaming output** with character-by-character display animation
+- **Neon terminal UI** with DS-Digital font styling
+- **Markdown rendering** with table support and syntax highlighting
+- **Flask backend** with OpenAI API integration
+- **Token counting** using tiktoken for usage tracking
+- **Fixed-height console** with internal scrolling for long outputs
+- **No page scroll**—locked viewport with scrollable output panel
 
 ## Tech Stack
 
-**Backend**
-- Python  
-- FastAPI  
+**Frontend:**
+- React (Create React App)
+- React Markdown with remark-gfm, rehype-highlight
+- react-textarea-autosize
+- Highlight.js for code syntax highlighting
+
+**Backend:**
+- Flask
+- Flask-CORS
 - OpenAI API
+- python-dotenv
+- tiktoken
 
-**Frontend**
-- HTML/CSS/JavaScript (very early, minimal)
+## Local Setup
 
----
+### Prerequisites
 
-## Why This Repo Exists
+- Python 3.7+
+- Node.js and npm
+- OpenAI API key
 
-This project represents:
-- My earliest experiments with LLM apps  
-- My first time hooking a backend + frontend together  
-- The conceptual seed for DartBoard's mode system  
-- A reference point for my portfolio showing how far I’ve come  
+### Backend Setup
 
-This repo is intentionally archived as a milestone, not as an active project.
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd -0-neShotAI-main
+   ```
 
----
+2. Navigate to backend directory:
+   ```bash
+   cd backend
+   ```
 
-## Current Status
+3. Install Python dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-❗ Archived — no longer maintained  
-✔ Kept for historical + portfolio purposes  
-✔ Useful when showing progression from prototype → full product (DartBoard)
+4. Create `.env` file from template:
+   ```bash
+   cp ../.env.example .env
+   ```
+
+5. Edit `.env` and add your OpenAI API key:
+   ```
+   OPENAI_API_KEY=your_api_key_here
+   FLASK_ENV=development
+   FRONTEND_URL=http://localhost:3000
+   BACKEND_URL=http://127.0.0.1:5000
+   ```
+
+6. Start the Flask server:
+   ```bash
+   python app.py
+   ```
+   Server runs on `http://127.0.0.1:5000`
+
+### Frontend Setup
+
+1. Navigate to frontend directory:
+   ```bash
+   cd frontend
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm start
+   ```
+   App runs on `http://localhost:3000`
+
+## Notes
+
+- **No authentication in public version**: Supabase integration is disabled for public builds. The app runs in guest mode with local storage-based usage tracking.
+
+- **Supabase hooks disabled**: All Supabase-related code is commented out. To enable authentication locally, uncomment the Supabase import in `frontend/src/App.js` and configure environment variables.
+
+- **Local experimentation only**: This repository is configured for local development. Environment variables are required for API keys and should never be committed to version control.
+
+- **Backend API endpoint**: The frontend communicates with the backend at `http://127.0.0.1:5000/api/process` for processing prompts.
+
+- **Token usage**: Token counts are calculated and displayed but not persisted in the public version.

@@ -110,6 +110,7 @@
   padding: 14px 60px 14px 18px;
   resize: none;
   outline: none;
+  overflow-y: auto;
   text-shadow: 0 0 2px #00cc66, 0 0 4px #006644;
 }
 
@@ -152,7 +153,31 @@
   font-size: 13px;
 }
 
-.output-box {
+.app-shell {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'DS-Digital';
+  color: #00ff88;
+  width: 100%;
+  background: radial-gradient(circle at center, #001d12 0%, #000000 80%);
+  background-attachment: fixed;
+}
+
+.terminal-layout {
+  width: 80vw;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.output-panel {
+  flex: 1;
+  max-height: 55vh;
+  overflow-y: auto;
   font-size: 1.1rem;
   padding: 20px;
   background-color: rgba(0, 0, 0, 0.1);
@@ -162,9 +187,104 @@
   color: #00cc66;
   font-family: 'DS-Digital';
   text-shadow: 0 0 2px #00cc66, 0 0 4px #006644;
-  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-panel {
+  flex-shrink: 0;
+}
+
+.console-output {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   width: 100%;
+  margin-top: 8px;
   white-space: pre-wrap;
+}
+
+.console-output > *:first-child {
+  margin-top: 0;
+}
+
+.output-panel p {
+  margin: 0.5em 0;
+}
+
+.output-panel p:first-child {
+  margin-top: 0;
+}
+
+.output-panel p:last-child {
+  margin-bottom: 0;
+}
+
+.font-digital {
+  font-family: 'DS-Digital', monospace;
+}
+
+.oneshot-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+
+.oneshot-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #007744;
+  font-family: 'DS-Digital', monospace;
+}
+
+.oneshot-thead {
+  background-color: rgba(0, 119, 68, 0.2);
+}
+
+.oneshot-th {
+  border: 1px solid #007744;
+  padding: 8px 12px;
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #00cc66;
+  text-align: left;
+  text-shadow: 0 0 2px #00cc66;
+}
+
+.oneshot-td {
+  border: 1px solid #007744;
+  padding: 8px 12px;
+  vertical-align: top;
+  color: #00cc66;
+  text-shadow: 0 0 2px #00cc66;
+}
+
+.oneshot-pre {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #007744;
+  border-radius: 4px;
+  padding: 12px;
+  overflow-x: auto;
+  margin: 1em 0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  color: #00cc66;
+}
+
+.oneshot-code {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  color: #00cc66;
+}
+
+.oneshot-code-inline {
+  font-family: 'Courier New', monospace;
+  background-color: rgba(0, 119, 68, 0.1);
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: #00cc66;
+  font-size: 0.9em;
 }
 
 .hud-icon {
@@ -215,48 +335,6 @@ body {
   text-shadow: 0 0 4px #00ff88;
 }
 
-.login-popup {
-  position: fixed;
-  top: 58px;
-  right: 20px;
-  width: 300px;
-  background-color: #000;
-  color: #00ff88;
-  font-family: 'DS-Digital';
-  border: 1px solid #00ff88;
-  box-shadow: 0 0 10px #00ff88;
-  padding: 16px;
-  z-index: 9999;
-  text-align: center;
-  text-shadow: 0 0 4px #00ff88;
-}
-
-.auth-button {
-  background-color: transparent;
-  color: #00ff88;
-  border: 1px solid #00ff88;
-  padding: 6px 14px;
-  cursor: pointer;
-  font-family: 'DS-Digital';
-  margin-top: 10px;
-  text-shadow: 0 0 3px #00ff88;
-}
-
-.auth-button:hover {
-  background-color: #00ff88;
-  color: #000;
-}
-
-.login-footer {
-  font-size: 12px;
-  opacity: 0.7;
-  margin-top: 10px;
-}
-.login-footer a {
-  color: #00ff88;
-  text-decoration: underline;
-}
-
 .hover-glow {
   transition: all 0.3s ease;
   opacity: 0.7;
@@ -272,13 +350,6 @@ body {
   opacity: 1;
   box-shadow: 0 0 8px #00ff88, 0 0 12px #00ff88;
   background-color: rgba(0, 255, 136, 0.05);
-}
-
-.usage-meter {
-  font-size: 12px;
-  margin-left: 10px;
-  opacity: 0.8;
-  color: #00ff88;
 }
 
 .token-bar-container {

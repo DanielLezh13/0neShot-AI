@@ -1,11 +1,21 @@
 /* index.css */
-body {
+@import "highlight.js/styles/atom-one-dark.css";
+
+html, body, #root {
   margin: 0;
   padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
   background-color: black;
 }
 
-.global-wrapper {
-  min-height: 100vh;
-  background: transparent;
+.hljs {
+  background: transparent !important;
+}
+
+.hljs code {
+  background: transparent !important;
 }

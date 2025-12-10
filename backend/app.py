@@ -4,7 +4,7 @@ from flask_cors import CORS
 import os
 
 app = Flask(__name__)
-CORS(app)  # Enable Cross-Origin for React
+CORS(app, resources={r"/*": {"origins": [os.getenv("FRONTEND_URL", "http://localhost:3000")]}})
 
 # Existing route for legacy HTML use (keep this)
 @app.route("/", methods=["GET", "POST"])
@@ -31,4 +31,4 @@ def process_input():
     return jsonify({"output": response, "token_count": tokens})
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    app.run(host="127.0.0.1", port=5000, debug=False)

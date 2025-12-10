@@ -1,5 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
+import rehypeHighlight from 'rehype-highlight';
 import './App.css';
 // import { supabase } from './supabaseClient';
 // window.supabase = supabase;
@@ -7,6 +11,9 @@ import './App.css';
 function App() {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
+  const [displayedOutput, setDisplayedOutput] = useState('');
+  const [isStreaming, setIsStreaming] = useState(false);
+  const streamTimerRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [activePanel, setActivePanel] = useState(null);
   const [lockedPanel, setLockedPanel] = useState(null);
@@ -84,6 +91,34 @@ function App() {
     getUser();
   }, []);
 
+  const stopStreaming = () => {
+    if (streamTimerRef.current !== null) {
+      clearInterval(streamTimerRef.current);
+      streamTimerRef.current = null;
+    }
+    setIsStreaming(false);
+  };
+
+  const startStreaming = (fullText) => {
+    stopStreaming();
+    setIsStreaming(true);
+    setDisplayedOutput('');
+    
+    const CHUNK_SIZE = 8;
+    const INTERVAL_MS = 20;
+    let index = 0;
+    
+    streamTimerRef.current = setInterval(() => {
+      index += CHUNK_SIZE;
+      if (index >= fullText.length) {
+        setDisplayedOutput(fullText);
+        stopStreaming();
+      } else {
+        setDisplayedOutput(fullText.slice(0, index));
+      }
+    }, INTERVAL_MS);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -110,6 +145,7 @@ function App() {
       });
       const data = await response.json();
       setOutput(data.output);
+      startStreaming(data.output);
       console.log("Tokens used:", data.token_count);
       setTokenUsage(prev => prev + data.token_count);
 
@@ -201,6 +237,12 @@ const handleGoogleLogin = async () => {
     }
   }, []);
 
+  useEffect(() => {
+    return () => {
+      stopStreaming();
+    };
+  }, []);
+
   return (
 
     <>
@@ -239,7 +281,7 @@ const handleGoogleLogin = async () => {
         </div>
       </div>
 
-      <div className="main-container">
+      <div className="app-shell">
         <style>{`@font-face { font-family: 'DS-Digital'; src: url('/fonts/DS-DIGI.TTF') format('truetype'); } .blinking-cursor { animation: blink 1.1s steps(2, start) infinite; } @keyframes blink { to { visibility: hidden; } }`}</style>
         <div style={{ position: 'relative', display: 'inline-block' }}>
           <h1 className="title" style={{ position: 'relative', zIndex: 1 }}>
@@ -248,42 +290,70 @@ const handleGoogleLogin = async () => {
         </div>
         <div className="title-divider"></div>
 
-        <div className="interaction-block">
-          <div className="output-box">
-            {output || (
-              <>
-                <br />[BOOT SEQUENCE INITIALIZED] ...<br />
-                &gt; LINK STATUS: STABLE<br />
-                &gt; SYSTEM STANDBY<br />
-                <span className="blinking-cursor">_</span>
-              </>
-            )}
+        <div className="terminal-layout">
+          <div className="output-panel">
+            <div className="console-output">
+              {!displayedOutput && !output ? (
+                <>
+                  <br />[BOOT SEQUENCE INITIALIZED] ...<br />
+                  &gt; LINK STATUS: STABLE<br />
+                  &gt; SYSTEM STANDBY<br />
+                  <span className="blinking-cursor">_</span>
+                </>
+              ) : (
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeRaw, rehypeHighlight]}
+                  components={{
+                    table: ({ children }) => (
+                      <div className="oneshot-table-wrapper">
+                        <table className="oneshot-table font-digital">{children}</table>
+                      </div>
+                    ),
+                    thead: ({ children }) => <thead className="oneshot-thead">{children}</thead>,
+                    th: ({ children }) => <th className="oneshot-th">{children}</th>,
+                    td: ({ children }) => <td className="oneshot-td">{children}</td>,
+                    pre: ({ children }) => <pre className="oneshot-pre">{children}</pre>,
+                    code: ({ inline, children, ...props }) => {
+                      if (inline) {
+                        return <code className="oneshot-code-inline" {...props}>{children}</code>;
+                      }
+                      return <code className="oneshot-code" {...props}>{children}</code>;
+                    },
+                  }}
+                >
+                  {displayedOutput + (isStreaming ? " ▌" : "")}
+                </ReactMarkdown>
+              )}
+            </div>
           </div>
-          {loading && <div className="loading-text">PROCESSING . . .</div>}
-          <form onSubmit={handleSubmit} className="input-form">
-            <TextareaAutosize
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="ENTER COMMAND . . ."
-              minRows={1}
-              maxRows={6}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSubmit(e);
-                }
-              }}
-              className="command-input"
-            />
-            <button type="submit" disabled={loading} className="submit-button" aria-label="Submit">
-              <img
-                src="/assets/target.png"
-                alt="Strike"
-                className={loading ? 'spinning-icon' : ''}
-                style={{ width: '30px', height: '30px', filter: 'drop-shadow(0 0 4px #00ff88)' }}
+          <div className="input-panel">
+            {loading && <div className="loading-text">PROCESSING . . .</div>}
+            <form onSubmit={handleSubmit} className="input-form">
+              <TextareaAutosize
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="ENTER COMMAND . . ."
+                minRows={1}
+                maxRows={4}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSubmit(e);
+                  }
+                }}
+                className="command-input"
               />
-            </button>
-          </form>
+              <button type="submit" disabled={loading} className="submit-button" aria-label="Submit">
+                <img
+                  src="/assets/target.png"
+                  alt="Strike"
+                  className={loading ? 'spinning-icon' : ''}
+                  style={{ width: '30px', height: '30px', filter: 'drop-shadow(0 0 4px #00ff88)' }}
+                />
+              </button>
+            </form>
+          </div>
         </div>
       </div>
 
