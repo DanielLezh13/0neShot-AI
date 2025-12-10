@@ -37,3 +37,7 @@ build/
 dist/
 *.egg-info/
 
+# Python virtual environment / vendored site-packages
+backend/Lib/
+backend/Scripts/
+backend/pyvenv.cfg
