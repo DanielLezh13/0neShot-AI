@@ -1,105 +1,201 @@
-# OneShotAI — Single-Prompt Tactical Interface
+# OneShotAI — Minimalist Tactical AI Interface  
+_A single‑prompt, zero‑memory command console_
 
-## Overview
+## 🌐 Overview
 
-OneShotAI is a minimal, stateless AI terminal interface with a neon-styled UI. It provides single-shot Q&A interactions with no chat history—each prompt is processed independently, making it ideal for tactical, focused queries without conversational context.
+OneShotAI is a **stateless, single‑prompt AI terminal** designed for fast, tactical, zero‑context responses.  
+No conversation history. No memory. No personalization layer.  
+Every input is treated as a **fresh command**, producing the cleanest possible model output.
 
-## Features
+This project represents the **opposite design philosophy** of large, scaffolded AI interfaces.  
+Where systems like DartBoard focus on memory, structure, and multi‑step reasoning,  
+**OneShotAI explores the bare-metal behavior of an LLM with everything stripped away.**
 
-- **Streaming output** with character-by-character display animation
-- **Neon terminal UI** with DS-Digital font styling
-- **Markdown rendering** with table support and syntax highlighting
-- **Flask backend** with OpenAI API integration
-- **Token counting** using tiktoken for usage tracking
-- **Fixed-height console** with internal scrolling for long outputs
-- **No page scroll**—locked viewport with scrollable output panel
+It is a neon‑styled, compact console ideal for:
+- Direct Q&A  
+- Quick reasoning tasks  
+- Lightweight inference  
+- Environments where stateful chat is undesirable  
 
-## Tech Stack
+This project was originally built to study how LLMs behave **without** memory or scaffolding —  a foundation that later informed the development of DartBoard, a structured multi-layer AI system.
 
-**Frontend:**
+---
+
+## ⚡ Features
+
+### Core Interaction
+- **Single‑prompt, stateless execution** — no chat history, no hidden context  
+- **Character‑streaming animation** for a terminal-like flow  
+- **Blinking cursor effect** during output  
+- **Internal scrollable console** with fixed viewport  
+
+### Rendering & Styling
+- **Neon green terminal aesthetic** (DS-Digital font)  
+- **Markdown rendering** (tables, lists, code, headings)
+- **Syntax highlighting** for code blocks (Highlight.js)
+- **Responsive output panel** with smooth scroll behavior  
+
+### Backend
+- **Flask** server with clean API separation  
+- **OpenAI API integration** with environment-variable credential handling  
+- **Token counting** using tiktoken  
+- **CORS‑restricted endpoints** for safe local usage  
+
+---
+
+## 🧠 Design Philosophy
+
+OneShotAI was created first — before DartBoard — as an experiment:
+
+> _“What does an LLM feel like when everything is removed?”_  
+> _No system prompt. No history. No personalization. No structure._
+
+This minimalist approach helped expose:
+- How the model behaves *raw*  
+- How much scaffolding influences reasoning  
+- How memory and modes change output quality  
+- How interface constraints shape cognition  
+
+From this experiment, the insights directly informed my ongoing development of **DartBoard**,  
+a structured, multi-layer AI system built for persistent memory, mode switching, and advanced reasoning workflows.
+
+Where OneShotAI strips everything away, DartBoard adds the layers an AI actually needs to operate at scale:
+- contextual memory that can be attached or removed per task  
+- injectable knowledge modules (files, notes, archived sessions)  
+- structured reasoning modes  
+- continuity across long analytical workflows  
+
+OneShotAI represents the minimal baseline.  
+DartBoard explores the opposite direction — a controlled environment for richer, more deliberate thinking.
+
+Together, they form a deliberate contrast:  
+**OneShotAI tests the model raw; DartBoard tests the model scaffolded.**
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
 - React (Create React App)
-- React Markdown with remark-gfm, rehype-highlight
+- React Markdown (remark-gfm, rehype-highlight)
 - react-textarea-autosize
-- Highlight.js for code syntax highlighting
+- Highlight.js
+- Custom neon DS-Digital styling
 
-**Backend:**
-- Flask
+### Backend
+- Python (Flask)
 - Flask-CORS
 - OpenAI API
 - python-dotenv
 - tiktoken
 
-## Local Setup
+---
 
-### Prerequisites
+## 🚀 Local Setup
 
-- Python 3.7+
-- Node.js and npm
-- OpenAI API key
+### 1. Clone the repository
+```bash
+git clone <repository-url>
+cd -0-neShotAI-main
+```
 
-### Backend Setup
+---
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd -0-neShotAI-main
-   ```
+### 2. Backend Setup
+```bash
+cd backend
+pip install -r requirements.txt
+cp ../.env.example .env
+```
 
-2. Navigate to backend directory:
-   ```bash
-   cd backend
-   ```
+Edit `.env` to include:
+```
+OPENAI_API_KEY=your_key_here
+FLASK_ENV=development
+FRONTEND_URL=http://localhost:3000
+BACKEND_URL=http://127.0.0.1:5000
+```
 
-3. Install Python dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+Start the server:
+```bash
+python app.py
+```
 
-4. Create `.env` file from template:
-   ```bash
-   cp ../.env.example .env
-   ```
+---
 
-5. Edit `.env` and add your OpenAI API key:
-   ```
-   OPENAI_API_KEY=your_api_key_here
-   FLASK_ENV=development
-   FRONTEND_URL=http://localhost:3000
-   BACKEND_URL=http://127.0.0.1:5000
-   ```
+### 3. Frontend Setup
+```bash
+cd frontend
+npm install
+npm start
+```
 
-6. Start the Flask server:
-   ```bash
-   python app.py
-   ```
-   Server runs on `http://127.0.0.1:5000`
+App runs at:  
+`http://localhost:3000`
 
-### Frontend Setup
+---
 
-1. Navigate to frontend directory:
-   ```bash
-   cd frontend
-   ```
+## 📡 API Endpoint
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+Frontend communicates with:
 
-3. Start the development server:
-   ```bash
-   npm start
-   ```
-   App runs on `http://localhost:3000`
+```
+POST http://127.0.0.1:5000/api/process
+```
 
-## Notes
+Payload:
+```json
+{
+  "prompt": "Your message here"
+}
+```
 
-- **No authentication in public version**: Supabase integration is disabled for public builds. The app runs in guest mode with local storage-based usage tracking.
+Returns:
+- Model response  
+- Token usage  
+- Streaming output support  
 
-- **Supabase hooks disabled**: All Supabase-related code is commented out. To enable authentication locally, uncomment the Supabase import in `frontend/src/App.js` and configure environment variables.
+---
 
-- **Local experimentation only**: This repository is configured for local development. Environment variables are required for API keys and should never be committed to version control.
+## 🎥 Demo (recommended once deployed)
 
-- **Backend API endpoint**: The frontend communicates with the backend at `http://127.0.0.1:5000/api/process` for processing prompts.
+Add here later:
+- 2–3 screenshots of the UI  
+- 1 short GIF of the streaming animation  
 
-- **Token usage**: Token counts are calculated and displayed but not persisted in the public version.
+---
+
+## 📘 Roadmap
+
+- Deployment (Vercel + Render/Fly)  
+- Optional: additional modes (Tactical / Simple)  
+- Architecture diagram  
+- Error boundary for backend timeouts  
+- Optional mobile UI pass  
+
+---
+
+## 📄 License
+
+MIT License — see `LICENSE` file.
+
+---
+
+## ⭐ If you're reviewing my portfolio
+
+This project demonstrates:
+
+- custom UI design  
+- streaming output rendering  
+- API integration  
+- Flask backend engineering  
+- environment-variable security  
+- Markdown + syntax rendering  
+- thoughtful product philosophy  
+
+For a direct contrast, see **DartBoard**, the maximalist AI cockpit built afterward.
+
+---
+
+OneShotAI is intentionally simple — a focused instrument for raw inference.  
+A minimal tool with a clear identity.

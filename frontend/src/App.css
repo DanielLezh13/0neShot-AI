@@ -79,7 +79,8 @@
   height: 2px;
   width: 40%;
   background: linear-gradient(to right, transparent, #00ff88, transparent);
-  margin-bottom: 2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
 }
 
 .interaction-block {
@@ -164,20 +165,41 @@
   width: 100%;
   background: radial-gradient(circle at center, #001d12 0%, #000000 80%);
   background-attachment: fixed;
+  overflow: hidden;
+}
+
+.terminal-shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.app-header {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
 }
 
 .terminal-layout {
-  width: 80vw;
-  max-width: 900px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
+}
+
+.console-box {
+  max-height: 420px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .output-panel {
-  flex: 1;
-  max-height: 55vh;
-  overflow-y: auto;
   font-size: 1.1rem;
   padding: 20px;
   background-color: rgba(0, 0, 0, 0.1);
@@ -189,6 +211,7 @@
   text-shadow: 0 0 2px #00cc66, 0 0 4px #006644;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .input-panel {
@@ -196,12 +219,16 @@
 }
 
 .console-output {
+  max-height: 100%;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
   margin-top: 8px;
+  padding-bottom: 18px;
+  box-sizing: border-box;
   white-space: pre-wrap;
 }
 
@@ -225,39 +252,45 @@
   font-family: 'DS-Digital', monospace;
 }
 
-.oneshot-table-wrapper {
+.markdown-table-wrapper {
   width: 100%;
   overflow-x: auto;
-  margin: 1em 0;
+  margin: 8px 0;
+  max-height: none;
 }
 
-.oneshot-table {
+.markdown-table {
   width: 100%;
   border-collapse: collapse;
   border: 1px solid #007744;
-  font-family: 'DS-Digital', monospace;
+  font-size: 0.9rem;
+  margin: 0;
 }
 
-.oneshot-thead {
+.markdown-table thead {
   background-color: rgba(0, 119, 68, 0.2);
 }
 
-.oneshot-th {
+.markdown-table th {
   border: 1px solid #007744;
-  padding: 8px 12px;
-  font-size: 0.9em;
+  padding: 6px 10px;
+  font-family: 'DS-Digital', monospace;
+  font-size: 0.9rem;
   font-weight: bold;
   color: #00cc66;
   text-align: left;
   text-shadow: 0 0 2px #00cc66;
+  vertical-align: top;
 }
 
-.oneshot-td {
+.markdown-table td {
   border: 1px solid #007744;
-  padding: 8px 12px;
-  vertical-align: top;
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 0.9rem;
   color: #00cc66;
   text-shadow: 0 0 2px #00cc66;
+  vertical-align: top;
 }
 
 .oneshot-pre {

@@ -283,50 +283,57 @@ const handleGoogleLogin = async () => {
 
       <div className="app-shell">
         <style>{`@font-face { font-family: 'DS-Digital'; src: url('/fonts/DS-DIGI.TTF') format('truetype'); } .blinking-cursor { animation: blink 1.1s steps(2, start) infinite; } @keyframes blink { to { visibility: hidden; } }`}</style>
-        <div style={{ position: 'relative', display: 'inline-block' }}>
-          <h1 className="title" style={{ position: 'relative', zIndex: 1 }}>
-            [0]neShot-AI
-          </h1>
-        </div>
-        <div className="title-divider"></div>
+        
+        <div className="terminal-shell">
+          <div className="app-header">
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+              <h1 className="title" style={{ position: 'relative', zIndex: 1 }}>
+                [0]neShot-AI
+              </h1>
+            </div>
+            <div className="title-divider"></div>
+          </div>
 
-        <div className="terminal-layout">
-          <div className="output-panel">
-            <div className="console-output">
-              {!displayedOutput && !output ? (
-                <>
-                  <br />[BOOT SEQUENCE INITIALIZED] ...<br />
-                  &gt; LINK STATUS: STABLE<br />
-                  &gt; SYSTEM STANDBY<br />
-                  <span className="blinking-cursor">_</span>
-                </>
-              ) : (
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  rehypePlugins={[rehypeRaw, rehypeHighlight]}
-                  components={{
-                    table: ({ children }) => (
-                      <div className="oneshot-table-wrapper">
-                        <table className="oneshot-table font-digital">{children}</table>
-                      </div>
-                    ),
-                    thead: ({ children }) => <thead className="oneshot-thead">{children}</thead>,
-                    th: ({ children }) => <th className="oneshot-th">{children}</th>,
-                    td: ({ children }) => <td className="oneshot-td">{children}</td>,
-                    pre: ({ children }) => <pre className="oneshot-pre">{children}</pre>,
-                    code: ({ inline, children, ...props }) => {
-                      if (inline) {
-                        return <code className="oneshot-code-inline" {...props}>{children}</code>;
-                      }
-                      return <code className="oneshot-code" {...props}>{children}</code>;
-                    },
-                  }}
-                >
-                  {displayedOutput + (isStreaming ? " ▌" : "")}
-                </ReactMarkdown>
-              )}
+          <div className="terminal-layout">
+          <div className="console-box">
+            <div className="output-panel">
+              <div className="console-output">
+                {!displayedOutput && !output ? (
+                  <>
+                    <br />[BOOT SEQUENCE INITIALIZED] ...<br />
+                    &gt; LINK STATUS: STABLE<br />
+                    &gt; SYSTEM STANDBY<br />
+                    <span className="blinking-cursor">_</span>
+                  </>
+                ) : (
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeRaw, rehypeHighlight]}
+                    components={{
+                      table: ({ children }) => (
+                        <div className="markdown-table-wrapper">
+                          <table className="markdown-table">{children}</table>
+                        </div>
+                      ),
+                      thead: ({ children }) => <thead>{children}</thead>,
+                      th: ({ children }) => <th>{children}</th>,
+                      td: ({ children }) => <td>{children}</td>,
+                      pre: ({ children }) => <pre className="oneshot-pre">{children}</pre>,
+                      code: ({ inline, children, ...props }) => {
+                        if (inline) {
+                          return <code className="oneshot-code-inline" {...props}>{children}</code>;
+                        }
+                        return <code className="oneshot-code" {...props}>{children}</code>;
+                      },
+                    }}
+                  >
+                    {displayedOutput + (isStreaming ? " ▌" : "")}
+                  </ReactMarkdown>
+                )}
+              </div>
             </div>
           </div>
+          
           <div className="input-panel">
             {loading && <div className="loading-text">PROCESSING . . .</div>}
             <form onSubmit={handleSubmit} className="input-form">
@@ -354,6 +361,7 @@ const handleGoogleLogin = async () => {
               </button>
             </form>
           </div>
+        </div>
         </div>
       </div>
 
