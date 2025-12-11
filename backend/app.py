@@ -26,7 +26,43 @@ def count_tokens(text):
 def process_input():
     data = request.get_json()
     user_input = data.get("input", "")
-    response = run_lynx_tactical(user_input)
+    
+    q = user_input.lower()
+    
+    name_keywords = [
+        "oneshot",
+        "oneshot-ai",
+        "oneshotai",
+        "0neshot",
+        "this app",
+        "this console",
+        "this terminal"
+    ]
+    
+    about_keywords = [
+        "what are you",
+        "who are you",
+        "what is this",
+        "what do you do",
+        "what is your purpose",
+        "explain",
+        "describe",
+        "summarize",
+        "philosophy",
+        "core idea",
+        "how does this work",
+        "how it works"
+    ]
+    
+    if any(k in q for k in name_keywords) and any(k in q for k in about_keywords):
+        response = (
+            "OneShotAI is a minimalist, single-prompt AI console. "
+            "It treats every input as a fresh command with zero memory, "
+            "and returns a clean, compressed answer for each query."
+        )
+    else:
+        response = run_lynx_tactical(user_input)
+    
     tokens = count_tokens(user_input) + count_tokens(response)
     return jsonify({"output": response, "token_count": tokens})
 

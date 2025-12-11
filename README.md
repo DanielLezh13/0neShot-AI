@@ -1,105 +1,72 @@
-# OneShotAI — Minimalist Tactical AI Interface  
-_A single‑prompt, zero‑memory command console_
+# 0neShot-AI  
+*Minimal, single-shot AI terminal for fast, compressed responses.*
 
-## 🌐 Overview
+<div align="center">
+  <img src="docs/hero.gif" width="600" alt="Demo GIF" />
+</div>
 
-OneShotAI is a **stateless, single‑prompt AI terminal** designed for fast, tactical, zero‑context responses.  
-No conversation history. No memory. No personalization layer.  
-Every input is treated as a **fresh command**, producing the cleanest possible model output.
+## Overview
+0neShot-AI is a **stateless AI console** where every prompt is treated as a fresh command.  
+No memory. No chat history. No continuity.  
+Just **input → answer**.
 
-This project represents the **opposite design philosophy** of large, scaffolded AI interfaces.  
-Where systems like DartBoard focus on memory, structure, and multi‑step reasoning,  
-**OneShotAI explores the bare-metal behavior of an LLM with everything stripped away.**
+This project explores the opposite design philosophy of complex, scaffolded AI systems.  
+Where multi-layer interfaces rely on memory, modes, and workflows,  
+**0neShot-AI strips everything away to reveal raw model behavior.**
 
-It is a neon‑styled, compact console ideal for:
-- Direct Q&A  
-- Quick reasoning tasks  
-- Lightweight inference  
-- Environments where stateful chat is undesirable  
-
-This project was originally built to study how LLMs behave **without** memory or scaffolding —  a foundation that later informed the development of DartBoard, a structured multi-layer AI system.
+Useful for:
+- quick inference  
+- terminal-style Q&A  
+- environments where stateful chat is undesirable  
+- studying baseline LLM output without scaffolding  
 
 ---
 
-## ⚡ Features
+## Features
 
 ### Core Interaction
-- **Single‑prompt, stateless execution** — no chat history, no hidden context  
-- **Character‑streaming animation** for a terminal-like flow  
-- **Blinking cursor effect** during output  
-- **Internal scrollable console** with fixed viewport  
+- **Single-shot stateless execution**  
+- **Streaming text animation**  
+- **Blinking cursor effect**  
+- **Internal scrollable terminal console**
 
 ### Rendering & Styling
-- **Neon green terminal aesthetic** (DS-Digital font)  
-- **Markdown rendering** (tables, lists, code, headings)
-- **Syntax highlighting** for code blocks (Highlight.js)
-- **Responsive output panel** with smooth scroll behavior  
+- **Neon terminal aesthetic**  
+- **Markdown support** (tables, lists, code, headers)  
+- **Syntax highlighting** for code blocks  
 
 ### Backend
-- **Flask** server with clean API separation  
-- **OpenAI API integration** with environment-variable credential handling  
-- **Token counting** using tiktoken  
-- **CORS‑restricted endpoints** for safe local usage  
+- **Flask API server**  
+- **OpenAI integration** via environment variables  
+- **Token counting**  
+- **CORS-restricted endpoints**
 
 ---
 
-## 🧠 Design Philosophy
-
-OneShotAI was created first — before DartBoard — as an experiment:
-
-> _“What does an LLM feel like when everything is removed?”_  
-> _No system prompt. No history. No personalization. No structure._
-
-This minimalist approach helped expose:
-- How the model behaves *raw*  
-- How much scaffolding influences reasoning  
-- How memory and modes change output quality  
-- How interface constraints shape cognition  
-
-From this experiment, the insights directly informed my ongoing development of **DartBoard**,  
-a structured, multi-layer AI system built for persistent memory, mode switching, and advanced reasoning workflows.
-
-Where OneShotAI strips everything away, DartBoard adds the layers an AI actually needs to operate at scale:
-- contextual memory that can be attached or removed per task  
-- injectable knowledge modules (files, notes, archived sessions)  
-- structured reasoning modes  
-- continuity across long analytical workflows  
-
-OneShotAI represents the minimal baseline.  
-DartBoard explores the opposite direction — a controlled environment for richer, more deliberate thinking.
-
-Together, they form a deliberate contrast:  
-**OneShotAI tests the model raw; DartBoard tests the model scaffolded.**
-
----
-
-## 🛠 Tech Stack
+## Tech Stack
 
 ### Frontend
-- React (Create React App)
-- React Markdown (remark-gfm, rehype-highlight)
-- react-textarea-autosize
-- Highlight.js
-- Custom neon DS-Digital styling
+- React  
+- React Markdown (remark-gfm, rehype-highlight)  
+- Highlight.js  
+- Custom DS-Digital styling  
 
 ### Backend
-- Python (Flask)
-- Flask-CORS
-- OpenAI API
-- python-dotenv
-- tiktoken
+- Python (Flask)  
+- Flask‑CORS  
+- OpenAI API  
+- python-dotenv  
+- tiktoken  
 
 ---
 
-## 🚀 Local Setup
+## Local Setup
 
 ### 1. Clone the repository
 ```bash
 git clone <repository-url>
 cd -0-neShotAI-main
 ```
-
----
 
 ### 2. Backend Setup
 ```bash
@@ -108,7 +75,7 @@ pip install -r requirements.txt
 cp ../.env.example .env
 ```
 
-Edit `.env` to include:
+Set values in `.env`:
 ```
 OPENAI_API_KEY=your_key_here
 FLASK_ENV=development
@@ -116,12 +83,10 @@ FRONTEND_URL=http://localhost:3000
 BACKEND_URL=http://127.0.0.1:5000
 ```
 
-Start the server:
+Start backend:
 ```bash
 python app.py
 ```
-
----
 
 ### 3. Frontend Setup
 ```bash
@@ -130,14 +95,12 @@ npm install
 npm start
 ```
 
-App runs at:  
+Frontend runs at:  
 `http://localhost:3000`
 
 ---
 
-## 📡 API Endpoint
-
-Frontend communicates with:
+## API Endpoint
 
 ```
 POST http://127.0.0.1:5000/api/process
@@ -151,51 +114,44 @@ Payload:
 ```
 
 Returns:
-- Model response  
-- Token usage  
-- Streaming output support  
+- model response  
+- token usage  
+- streaming support  
 
 ---
 
-## 🎥 Demo (recommended once deployed)
-
-Add here later:
-- 2–3 screenshots of the UI  
-- 1 short GIF of the streaming animation  
+## Demo (Add after deployment)
+- 2–3 UI screenshots  
+- 1 GIF showing streaming animation  
 
 ---
 
-## 📘 Roadmap
-
-- Deployment (Vercel + Render/Fly)  
-- Optional: additional modes (Tactical / Simple)  
+## Roadmap
+- Deployment to Vercel + Render/Fly  
+- Optional mode variants (Tactical / Simple)  
 - Architecture diagram  
-- Error boundary for backend timeouts  
+- Improved error boundaries  
 - Optional mobile UI pass  
 
 ---
 
-## 📄 License
-
-MIT License — see `LICENSE` file.
+## License
+MIT License — see `LICENSE`.
 
 ---
 
-## ⭐ If you're reviewing my portfolio
-
+## Portfolio Notes
 This project demonstrates:
-
-- custom UI design  
+- custom UI work  
 - streaming output rendering  
-- API integration  
-- Flask backend engineering  
-- environment-variable security  
+- React ↔ Flask integration  
+- clean API design  
+- environment variable security  
 - Markdown + syntax rendering  
-- thoughtful product philosophy  
+- clear product philosophy  
 
-For a direct contrast, see **DartBoard**, the maximalist AI cockpit built afterward.
+For contrast, see **DartBoard**, the maximalist multi-layer AI cockpit.
 
 ---
 
-OneShotAI is intentionally simple — a focused instrument for raw inference.  
-A minimal tool with a clear identity.
+0neShot-AI is intentionally minimal: a focused instrument for raw inference.
