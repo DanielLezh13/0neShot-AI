@@ -16,7 +16,7 @@ Where multi-layer interfaces rely on memory, modes, and workflows,
 
 ## Live Demo
 
-- Web app (frontend): https://one-shot-ai.vercel.app
+- Web app (frontend): https://0ne-shot-ai.vercel.app
 - API base URL (backend): https://zeroneshot-ai.onrender.com
 - Main endpoint: `POST https://zeroneshot-ai.onrender.com/api/process`
 
