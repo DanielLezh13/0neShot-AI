@@ -120,9 +120,16 @@ Returns:
 
 ---
 
-## Demo (Add after deployment)
-- 2–3 UI screenshots  
-- 1 GIF showing streaming animation  
+## Demo
+
+### Full View
+![OneShot-AI full view](docs/screenshot-full.png)
+
+### Terminal Close-Up
+![OneShot-AI console close-up](docs/screenshot-terminal.png)
+
+### GIF Preview
+![OneShot-AI demo](docs/hero.gif)
 
 ---
 
