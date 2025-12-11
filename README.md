@@ -22,6 +22,11 @@ Useful for:
 
 ---
 
+## Why OneShot Exists
+OneShot-AI was built as a minimal, stateless contrast to larger AI systems.  
+Its purpose is to expose raw model behavior with **zero memory**, **zero scaffolding**, and **zero continuation logic**.  
+This makes it useful as a diagnostic tool, a quick‑query interface, and a philosophical counterweight to my more complex project, DartBoard.
+
 ## Features
 
 ### Core Interaction
@@ -60,42 +65,38 @@ Useful for:
 
 ---
 
-## Local Setup
+## Quickstart
 
 ### 1. Clone the repository
+
 ```bash
 git clone <repository-url>
 cd -0-neShotAI-main
 ```
 
-### 2. Backend Setup
+### 2. Start the backend
+
 ```bash
 cd backend
 pip install -r requirements.txt
-cp ../.env.example .env
+cp ../.env.example .env   # add your OPENAI_API_KEY
+python3 app.py
 ```
 
-Set values in `.env`:
-```
-OPENAI_API_KEY=your_key_here
-FLASK_ENV=development
-FRONTEND_URL=http://localhost:3000
-BACKEND_URL=http://127.0.0.1:5000
-```
+Backend runs at:
 
-Start backend:
+`http://127.0.0.1:5000`
+
+### 3. Start the frontend
+
 ```bash
-python app.py
-```
-
-### 3. Frontend Setup
-```bash
-cd frontend
+cd ../frontend
 npm install
 npm start
 ```
 
-Frontend runs at:  
+Frontend runs at:
+
 `http://localhost:3000`
 
 ---
