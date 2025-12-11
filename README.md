@@ -14,6 +14,14 @@ This project explores the opposite design philosophy of complex, scaffolded AI s
 Where multi-layer interfaces rely on memory, modes, and workflows,  
 **0neShot-AI strips everything away to reveal raw model behavior.**
 
+## Live Demo
+
+- Web app (frontend): https://one-shot-ai.vercel.app
+- API base URL (backend): https://zeroneshot-ai.onrender.com
+- Main endpoint: `POST https://zeroneshot-ai.onrender.com/api/process`
+
+Use the web app for normal interaction. The API docs below are for people who want to script against the backend directly.
+
 Useful for:
 - quick inference  
 - terminal-style Q&A  
@@ -65,7 +73,7 @@ This makes it useful as a diagnostic tool, a quick‑query interface, and a phil
 
 ---
 
-## Quickstart
+## Quickstart (run locally)
 
 ### 1. Clone the repository
 
@@ -135,11 +143,10 @@ Returns:
 ---
 
 ## Roadmap
-- Deployment to Vercel + Render/Fly  
-- Optional mode variants (Tactical / Simple)  
-- Architecture diagram  
-- Improved error boundaries  
-- Optional mobile UI pass  
+- Optional mode variants (Tactical / Simple)
+- Architecture diagram
+- Improved error boundaries
+- Optional mobile UI pass
 
 ---
 
