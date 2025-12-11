@@ -4,7 +4,7 @@ from flask_cors import CORS
 import os
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": [os.getenv("FRONTEND_URL", "http://localhost:3000")]}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Existing route for legacy HTML use (keep this)
 @app.route("/", methods=["GET", "POST"])
