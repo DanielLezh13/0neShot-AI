@@ -19,16 +19,22 @@ Input: {user_input}
 
 Response:
 """
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {"role": "system", "content": "You are a tactical compression AI. No fluff, no empathy, only structure."},
-            {"role": "user", "content": prompt}
-        ],
-        temperature=0.4
-    )
-
-    return response.choices[0].message.content.strip()
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are a tactical compression AI. No fluff, no empathy, only structure."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.4,
+            max_tokens=300  # Output cap: limit response length
+        )
+        
+        return response.choices[0].message.content.strip()
+    
+    except Exception as e:
+        # Re-raise to be caught by app.py's error handler
+        raise
 if __name__ == "__main__":
     user_input = input("Enter input for LYNX 13 Tactical: ")
     output = run_lynx_tactical(user_input)
